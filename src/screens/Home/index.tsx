@@ -1,8 +1,15 @@
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, StyleSheet, Text, TextInput, View } from 'react-native';
 import { MainTitle } from '../../components/MainTItle';
 import Icon from 'react-native-vector-icons/Feather'
+import { useState } from 'react';
+
+interface Pokemon {
+  name: string
+
+}
 
 export function Home() {
+  const [pokemons, setPokemons] = useState<Pokemon[]>([{name: 'bulbasaur'}])
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -13,6 +20,7 @@ export function Home() {
         <Icon name='search' size={20} color={'#747476'} />
         <TextInput placeholder='What Pokémon are you looking for?' placeholderTextColor={'#747476'} />
       </View>
+      <FlatList data={pokemons} renderItem={({item}) => <Text>{item.name}</Text>} />
     </View>
   )
 }
@@ -34,6 +42,7 @@ const styles = StyleSheet.create({
   searchInput: {
     marginTop: 25,
     flexDirection: 'row',
+    marginBottom: 25,
     padding: 16,
     gap: 10,
     borderRadius: 10,
