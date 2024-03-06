@@ -8,9 +8,10 @@ export function Home() {
       <View style={styles.header}>
         <MainTitle text='Pokédex' />
         <Text style={styles.headerText}>Search for pokemon by name or using the National Pokédex number.</Text>
-      </View> <View>
-        <Icon name='search' size={35} />
-        <TextInput placeholder='What Pokémon are you looking for?' />
+      </View>
+      <View style={styles.searchInput}>
+        <Icon name='search' size={20} color={'#747476'} />
+        <TextInput placeholder='What Pokémon are you looking for?' placeholderTextColor={'#747476'} />
       </View>
     </View>
   )
@@ -29,5 +30,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19.09,
     color: '#747476'
+  },
+  searchInput: {
+    marginTop: 25,
+    flexDirection: 'row',
+    padding: 16,
+    gap: 10,
+    borderRadius: 10,
+    backgroundColor: '#F2F2F2'
   }
 })
