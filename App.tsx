@@ -1,18 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts, Roboto_400Regular, Roboto_700Bold, Roboto_500Medium } from '@expo-google-fonts/roboto'
 import { Home } from './src/screens/Home';
+import { Loading } from './src/components/Loading';
 
 export default function App() {
-  return (
-    <Home />
-  );
+  const [isLoaded] = useFonts({ Roboto_400Regular, Roboto_700Bold, Roboto_500Medium })
+  if(isLoaded) return <Loading />
+  return <Home />
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
