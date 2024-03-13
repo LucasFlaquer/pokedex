@@ -27,7 +27,7 @@ export const constants: Constants = {
       color: '#0F6AC0',
       background: '#7383B9'
     },
-    eletric: {
+    electric: {
       color: '#EED535',
       background: '#F2CB55'
     },

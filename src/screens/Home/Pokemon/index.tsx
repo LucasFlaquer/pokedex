@@ -11,8 +11,9 @@ interface Props {
 export function PokemonItem({ pokemon }: Props) {
   const formattedID = `# ${pokemon.id.toString().padStart(3, '0')}`
   const formattedName = captalize(pokemon.name)
+  const bgColor = constants.pokemonTypes[pokemon.types[0]].background
   return (
-    <View style={{...styles.container, backgroundColor: constants.pokemonTypes[pokemon.types[0]].background }}>
+    <View style={{...styles.container, backgroundColor: bgColor  }}>
       <View>
         <Text style={styles.id}>{formattedID}</Text>
         <Text style={styles.name}>{formattedName}</Text>
