@@ -9,6 +9,7 @@ import { PokemonType } from '../../interfaces/pokemon-type';
 
 type IndexPokemonResponse = {
   count: number
+  next: string
   results: {
     name: string
     url: string
@@ -37,8 +38,12 @@ export interface Pokemon {
 
 export function Home() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([])
-  async function fetchInitialData() {
-    const { data } = await api.get<IndexPokemonResponse>('/pokemon')
+  const [nextUrl, setNextUrl] = useState('')
+  const [pokemonName, setPokemonName] = useState('')
+
+  async function fetchPokemons(url: string) {
+    const { data } = await api.get<IndexPokemonResponse>(url)
+    setNextUrl(data.next)
     const promises = data.results.map(({ url }) => {
       return axios.get<DetailPokemonResponse>(url)
     })
@@ -53,9 +58,19 @@ export function Home() {
         sprite: response.data.sprites.other['official-artwork'].front_default
       }
     })
-    setPokemons(pokemons)
-    
+    return pokemons
   }
+  async function fetchInitialData() {
+    const pokemons = await fetchPokemons('/pokemon')
+    setPokemons(pokemons)
+  }
+
+  async function fetchMore() {
+    const morePokemons = await fetchPokemons(nextUrl)
+    console.log(morePokemons)
+    setPokemons(state => [...state, ...morePokemons])
+  }
+
   useEffect(() => {
     fetchInitialData()
   }, [])
@@ -67,13 +82,15 @@ export function Home() {
       </View>
       <View style={styles.searchInput}>
         <Icon name='search' size={20} color={'#747476'} />
-        <TextInput placeholder='What Pokémon are you looking for?' placeholderTextColor={'#747476'} />
+        <TextInput
+          placeholder='What Pokémon are you looking for?'
+          placeholderTextColor={'#747476'} />
       </View>
       <FlatList
         style={styles.list}
         data={pokemons}
         renderItem={({ item }) => <PokemonItem pokemon={item} />}
-        onEndReached={()=> console.log('chegueeei')}
+        onEndReached={fetchMore}
       />
     </View>
   )
